@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>圖文留言板</h1>
+    <form enctype="multipart/form-data">
+        <label for="msg">請輸入留言</label>
+        <input type="text" id="msg" class="msg">
+        <label for="pic">請上傳圖片</label>
+        <input type="file" id="pic" class="file" name="avatar">
+        <button>送出</button>
+    </form>
+    <hr>
+    <img>
+    <script>
+        const form = document.querySelector('form');
+
+        const uploadFile = async (e) => {
+            const input = document.querySelector('input[type="file"]');
+            e.preventDefault();
+            let data = new FormData()
+            data.append('file', input.files[0])
+
+            const response = await fetch('/api/upload', {
+                method: "POST",
+                body: data,
+            })
+
+            const responseData = await response.json();
+            console.log(responseData)
+        }
+        form.addEventListener('submit', uploadFile)
+    </script>
+</body>
+</html>
