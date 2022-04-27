@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
                     console.log(err);
                 }else{
                     // console.log(result);
-                    res.render('hello', {data: result})
+                    res.render('index', {data: result})
                     connection.release();
                 }
             })
@@ -45,16 +45,6 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
                     // console.log(result)
                     connection.release();
                 }
-            })
-        }
-    })
-    pool.getConnection((err, connection) => {
-        if(err){
-            console.log(err)
-        }else{
-            connection.query('SELECT * FROM message', (err, result) => {
-                console.log(result);
-                connection.release();
             })
         }
     })
