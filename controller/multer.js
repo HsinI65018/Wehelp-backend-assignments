@@ -1,6 +1,7 @@
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 const aws = require('aws-sdk');
+require('dotenv').config();
 
 aws.config.update({
     secretAccessKey: process.env.SECREAT_ACCESS_KEY,
@@ -22,4 +23,4 @@ const upload = multer({
     })
 });
 
-module.exports = upload;
+module.exports = upload

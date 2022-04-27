@@ -4,35 +4,56 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/hello.css">
     <title>Document</title>
 </head>
 <body>
     <h1>圖文留言板</h1>
     <form enctype="multipart/form-data">
-        <label for="msg">請輸入留言</label>
-        <input type="text" id="msg" class="msg">
-        <label for="pic">請上傳圖片</label>
-        <input type="file" id="pic" class="file" name="avatar">
+        <div>
+            <label for="msg">請輸入內容</label>
+            <input type="text" id="msg" class="msg">
+        </div>
+        <div>
+            <label for="pic">請上傳圖片</label>
+            <input type="file" id="pic" class="file" name="avatar">
+        </div>
         <button>送出</button>
     </form>
     <hr>
-    <img>
+    <!-- <img src="https://d14pt48ka0wwug.cloudfront.net/1.jpg"> -->
+    <main></main>
+    <div>
+        <% data.forEach((d)=>{%>
+            <div><%=d.message%></div> 
+            <img src=<%=d.filePath%>>
+            <hr>
+        <%});%>
+        </div>
     <script>
+        const main = document.querySelector('main');
         const form = document.querySelector('form');
+        const inputFile = document.querySelector('input[type="file"]');
 
         const uploadFile = async (e) => {
-            const input = document.querySelector('input[type="file"]');
             e.preventDefault();
+            const inputMessage = document.querySelector('.msg');
+
             let data = new FormData()
-            data.append('file', input.files[0])
+            data.append('file', inputFile.files[0])
+            data.append('msg', inputMessage.value)
 
             const response = await fetch('/api/upload', {
                 method: "POST",
-                body: data,
+                body: data
             })
 
             const responseData = await response.json();
             console.log(responseData)
+
+            if(responseData.success){
+                window.location = '/'
+            }
         }
         form.addEventListener('submit', uploadFile)
     </script>
